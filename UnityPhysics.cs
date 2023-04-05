@@ -25,14 +25,19 @@ namespace Physics
             }
         }
 
-        private static UnityVector3 Convert(Vector3 value)
+        public IEnumerable<IEntity> OverlapCapsule(Vector3 center, float halfHeight, float radius, Vector3 up)
         {
-            return new UnityVector3(value.X, value.Y, value.Z);
+            return OverlapCapsule(center + up * halfHeight, center - up * halfHeight, radius);
         }
-
+        
         public IEnumerable<IEntity> OverlapCapsule(Vector3 a, Vector3 b, float radius)
         {
-            var length = UnityEngine.Physics.OverlapCapsuleNonAlloc(Convert(a), Convert(b), radius, _colliders);
+            var length = UnityEngine.Physics.OverlapCapsuleNonAlloc(
+                UnityPhysicUtils.Convert(a),
+                UnityPhysicUtils.Convert(b),
+                radius,
+                _colliders
+            );
             for (var i = 0; i < length; i++)
             {
                 _entities[i].Impl = _colliders[i].gameObject;
@@ -43,7 +48,11 @@ namespace Physics
 
         public IEnumerable<IEntity> OverlapSphere(Vector3 position, float radius)
         {
-            var length = UnityEngine.Physics.OverlapSphereNonAlloc(Convert(position), radius, _colliders);
+            var length = UnityEngine.Physics.OverlapSphereNonAlloc(
+                UnityPhysicUtils.Convert(position),
+                radius,
+                _colliders
+            );
             for (var i = 0; i < length; i++)
             {
                 _entities[i].Impl = _colliders[i].gameObject;
