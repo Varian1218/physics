@@ -12,8 +12,8 @@ namespace Physics
             var localScale = transform.LocalScale;
             return physics.OverlapCapsule(
                 transform.Position + capsule.Center,
-                capsule.Height / localScale.Y,
-                capsule.Radius / Math.Min(localScale.X, localScale.Z),
+                capsule.Height * localScale.Y,
+                capsule.Radius * Math.Min(localScale.X, localScale.Z),
                 transform.Up
             );
         }
